@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-v1
+spec:
+  selector:
+    matchLabels:
+      app: hello-world
+      version: v1
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: hello-world
+        version: v1
+    spec:
+      imagePullSecrets:
+        - name: private-registry
+      containers:
+        - name: hello-world
+          image: registry-vpc.cn-shenzhen.aliyuncs.com/airparking/hello-world:1.0.0
+          imagePullPolicy: Always
+          env:
+            - name: ENABLED_LOG_SERVICE
+              value: "1"
+            - name: HEAP_SIZE
+              value: "536870912"
+          volumeMounts:
+            - name: app-conf
+              mountPath: "/usr/local/app/config"
+              readOnly: true
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "10m"
+            limits:
+              memory: "1024Mi"
+              cpu: "800m"
+      volumes:
+        - name: app-conf
+          configMap:
+            name: hello-world-config
