@@ -42,3 +42,17 @@ spec:
         - name: app-conf
           configMap:
             name: hello-world-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-world-svc
+spec:
+  type: NodePort
+  ports:
+    - protocol: TCP
+      nodePort: 30003
+    port: 8080
+    targetPort: 8080
+  selector:
+    app: hello-world
