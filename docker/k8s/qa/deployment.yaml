@@ -18,7 +18,7 @@ spec:
         - name: private-registry
       containers:
         - name: hello-world
-          image: registry-vpc.cn-shenzhen.aliyuncs.com/airparking/hello-world:1.0.1
+          image: registry.cn-guangzhou.aliyuncs.com/stark_v/hello-world:1.0.1
           imagePullPolicy: Always
           env:
             - name: ENABLED_LOG_SERVICE
